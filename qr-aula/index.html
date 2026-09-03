@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reto del día</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif}body{margin:0;min-height:100vh;background:linear-gradient(135deg,#f5f7fb,#e7eefc);display:flex;align-items:center;justify-content:center;color:#15213b}.card{width:min(92vw,720px);background:#fff;border-radius:24px;padding:28px;box-shadow:0 16px 45px rgba(0,0,0,.12);text-align:center}.badge{display:inline-block;padding:8px 14px;border-radius:999px;background:#eef4ff;font-weight:700}.title{font-size:clamp(28px,7vw,54px);margin:18px 0 10px}.text{font-size:clamp(18px,4vw,28px);line-height:1.45}.media{width:100%;max-height:52vh;object-fit:contain;border-radius:16px;margin-top:18px}.btn{display:inline-block;margin-top:20px;padding:14px 20px;border-radius:14px;background:#1f5eff;color:white;text-decoration:none;font-weight:700;font-size:18px}.small{margin-top:22px;color:#6b7280;font-size:14px}.error{color:#991b1b}</style>
+</head>
+<body>
+<main class="card" id="app"><div class="badge">Aula dinámica</div><h1 class="title">Cargando…</h1></main>
+<script>
+async function cargar(){
+ const app=document.getElementById('app');
+ try{
+  const r=await fetch('contenido.json?ts='+Date.now(),{cache:'no-store'});
+  if(!r.ok) throw new Error('No se pudo cargar el contenido');
+  const c=await r.json();
+  let html='<div class="badge">'+(c.etiqueta||'Reto del día')+'</div>';
+  html+='<h1 class="title">'+(c.titulo||'Hola alumnos')+'</h1>';
+  if(c.mensaje) html+='<div class="text">'+c.mensaje+'</div>';
+  if(c.tipo==='imagen' && c.url) html+='<img class="media" src="'+c.url+'" alt="Contenido del día">';
+  if(c.tipo==='video' && c.url) html+='<p><a class="btn" href="'+c.url+'" target="_blank" rel="noopener">Abrir video</a></p>';
+  if((c.tipo==='enlace'||c.tipo==='pagina') && c.url) html+='<p><a class="btn" href="'+c.url+'" target="_blank" rel="noopener">Abrir actividad</a></p>';
+  if(c.tipo==='reto' && c.reto) html+='<div class="text"><strong>Reto:</strong> '+c.reto+'</div>';
+  html+='<div class="small">Este mismo QR puede mostrar un contenido diferente cuando el profesor lo actualice.</div>';
+  app.innerHTML=html;
+ }catch(e){app.innerHTML='<h1 class="title error">Contenido no disponible</h1><p class="text">Vuelve a intentarlo en unos segundos.</p>'}
+}
+cargar();
+</script>
+</body>
+</html>
