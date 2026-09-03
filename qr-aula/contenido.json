@@ -1,0 +1,8 @@
+{
+  "etiqueta": "Mensaje del profesor",
+  "titulo": "Buenos días alumnos",
+  "mensaje": "Bienvenidos. Escaneen este mismo código QR cada día para descubrir la actividad o reto que les corresponde.",
+  "tipo": "reto",
+  "reto": "Para probar el sistema, comenten con un compañero qué actividad les gustaría encontrar mañana en este QR.",
+  "url": ""
+}
